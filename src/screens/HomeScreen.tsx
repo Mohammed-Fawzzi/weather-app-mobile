@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import SearchInput from "../components/SearchInput";
+import SearchInput from "@components/SearchInput";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View } from "react-native";
-import { ApiKey, BaseUrl } from "../utils/variables";
-import useWeather from "../hooks/useWeather";
+import { ApiKey, BaseUrl } from "@utils/variables";
+import useWeather from "@hooks/useWeather";
 
 export default function HomeScreen() {
     const { weatherData, getExample } = useWeather();

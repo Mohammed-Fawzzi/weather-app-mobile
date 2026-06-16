@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BaseUrl, ApiKey } from "../utils/variables";
+import { BaseUrl, ApiKey } from "@utils/variables";
 import axios from "axios";
 
 export default function useWeather() {
