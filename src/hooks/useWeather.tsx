@@ -4,14 +4,22 @@ import axios from "axios";
 
 export default function useWeather() {
     const [weatherData, setWeatherData] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function getExample() {
-        const weatherData = await axios.get(`${BaseUrl}/forecast.json?key=${ApiKey}&q=cairo&days=7`);
-        setWeatherData(weatherData.data.forecast.forecastday);
-        return weatherData.data.forecast.forecastday;
+        try {
+            setIsLoading(true);
+            const weatherData = await axios.get(`${BaseUrl}/forecast.json?key=${ApiKey}&q=cairo&days=7`);
+            setWeatherData(weatherData.data.forecast.forecastday);
+            setIsLoading(false);
+            return weatherData.data.forecast.forecastday;
+        } catch (error) {
+            setIsLoading(false);
+            console.error("Error fetching weather data:", error);
+        }
     }
 
     return (
-        { weatherData, getExample }
+        { weatherData, isLoading, getExample }
     )
 }
