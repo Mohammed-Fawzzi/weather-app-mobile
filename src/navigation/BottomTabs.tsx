@@ -2,16 +2,26 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "@screens/HomeScreen";
 import NewsScreen from "@screens/NewsScreen";
+import { View } from "react-native";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
+    const { theme } = useTheme();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarActiveTintColor: "#3B82F6",
-                tabBarInactiveTintColor: "#9CA3AF",
+
+                // tabBarActiveTintColor: "#3B82F6",
+                // tabBarInactiveTintColor: "#9CA3AF",
+
+                tabBarActiveTintColor: "#1E9BFF",
+                tabBarInactiveTintColor:
+                    theme === "dark" ? "#6B7280" : "#A7B0BE",
+
                 tabBarShowLabel: false,
 
                 tabBarStyle: {
@@ -20,6 +30,11 @@ export default function BottomTabs() {
                     paddingTop: 8,
                     borderTopWidth: 0,
                     elevation: 8,
+
+                    backgroundColor:
+                        theme === "dark"
+                            ? "#1E293B"
+                            : "#FFFFFF",
                 },
 
                 tabBarIcon: ({ color, size, focused }) => {
@@ -38,15 +53,31 @@ export default function BottomTabs() {
                     }
 
                     return (
-                        <Ionicons
-                            name={iconName}
-                            size={size}
-                            color={color}
-                        />
+                        <View
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: focused
+                                    ? theme === "dark"
+                                        ? "#1F2937"
+                                        : "#EAF6FF"
+                                    : "transparent",
+                            }}
+                        >
+                            <Ionicons
+                                name={iconName}
+                                size={size}
+                                color={color}
+                            />
+                        </View>
                     );
                 },
             })}
         >
+            
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}

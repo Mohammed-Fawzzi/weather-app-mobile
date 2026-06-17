@@ -1,13 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function ModeToggle() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <Pressable className="h-11 w-11 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800">
+    <Pressable
+      onPress={toggleTheme}
+      className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF]"
+    >
       <Ionicons
-        name="moon"
+        name={theme === "dark" ? "sunny" : "moon"}
         size={22}
-        color="#000"
+        color="#1E9BFF"
       />
     </Pressable>
   );
