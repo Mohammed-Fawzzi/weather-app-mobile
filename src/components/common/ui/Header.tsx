@@ -9,7 +9,7 @@ export default function Header() {
                 className="w-10 h-10"
             />
 
-            <Text className="text-2xl font-regular font-medium subtitle">
+            <Text className="text-2xl font-regular font-bold subtitle">
                 Weather
             </Text>
 

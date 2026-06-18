@@ -17,10 +17,10 @@ export default function TomorrowOutlook() {
                     {condition.text} tomorrow. High of {Math.round(maxtemp_c)}°
                 </Text>
 
-                <View className="flex-row justify-center gap-2 mt-4">
+                {/* <View className="flex-row justify-center gap-2 mt-4">
                     <View className="w-2 h-2 rounded-full bg-slate-400" />
                     <View className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600" />
-                </View>
+                </View> */}
             </View>
         </View>
     );
