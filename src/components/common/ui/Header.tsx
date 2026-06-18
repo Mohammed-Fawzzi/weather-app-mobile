@@ -3,7 +3,7 @@ import ModeToggle from "./ModeToggle";
 
 export default function Header() {
     return (
-        <View className="flex-row items-center justify-between mt-4 px-4 w-full">
+        <View className="flex-row items-center justify-between mt-4 px-4 w-full pb-4">
             <Image
                 source={require("@assets/logo.png")}
                 className="w-10 h-10"
