@@ -1,13 +1,8 @@
-import useWeather from "@/hooks/useWeather";
-import { useEffect } from "react";
+import useWeather from "@/contexts/WeatherContext";
 import { Image, Text, View } from "react-native";
 
 export default function Header() {
-    const { getExample, weatherData } = useWeather();
-
-    useEffect(() => {
-        getExample();
-    }, []);
+    const { weatherData } = useWeather();
 
     if (!weatherData) return null;
 

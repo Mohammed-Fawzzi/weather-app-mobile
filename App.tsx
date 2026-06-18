@@ -1,6 +1,7 @@
 import "./global.css";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { WeatherProvider } from "@/contexts/WeatherContext";
 import { useFonts } from "expo-font";
 
 export default function App() {
@@ -16,7 +17,9 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <AppNavigator />
+      <WeatherProvider>
+        <AppNavigator />
+      </WeatherProvider>
     </ThemeProvider>
   );
 }
