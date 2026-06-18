@@ -7,7 +7,7 @@ import ThreeDayForecast from "@/components/home/ThreeDayForecast";
 import TomorrowOutlook from "@/components/home/TomorrowOutlook";
 import useWeather from "@/hooks/useWeather";
 import MainLayout from "@/layouts/MainLayout";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { ScrollView } from "react-native";
 
 export default function HomeScreen() {
@@ -16,6 +16,13 @@ export default function HomeScreen() {
     useEffect(() => {
         fetchWeather();
     }, [fetchWeather]);
+
+    const handleSearch = useCallback(
+        (query: string) => {
+            fetchWeather(query);
+        },
+        [fetchWeather],
+    );
 
     if (isLoading && !weatherData) {
         return (
@@ -32,7 +39,7 @@ export default function HomeScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerClassName="items-center pb-6"
             >
-                <SearchInput />
+                <SearchInput onSearch={handleSearch} />
                 <Header weatherData={weatherData} />
                 <HourlyForecast weatherData={weatherData} />
                 <TomorrowOutlook weatherData={weatherData} />
