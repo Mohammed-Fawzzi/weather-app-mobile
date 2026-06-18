@@ -8,7 +8,7 @@ import TomorrowOutlook from "@/components/home/TomorrowOutlook";
 import useWeather from "@/hooks/useWeather";
 import MainLayout from "@/layouts/MainLayout";
 import { useCallback, useEffect } from "react";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 
 export default function HomeScreen() {
     const { fetchWeather, isLoading, weatherData } = useWeather();
@@ -34,18 +34,26 @@ export default function HomeScreen() {
 
     return (
         <MainLayout>
-            <ScrollView
-                className="flex-1 w-full"
-                showsVerticalScrollIndicator={false}
-                contentContainerClassName="items-center pb-6"
-            >
-                <SearchInput onSearch={handleSearch} />
-                <Header weatherData={weatherData} />
-                <HourlyForecast weatherData={weatherData} />
-                <TomorrowOutlook weatherData={weatherData} />
-                <ThreeDayForecast weatherData={weatherData} />
-                <ExtendedForecast weatherData={weatherData} />
-            </ScrollView>
+            <View className="flex-1 w-full">
+                <ScrollView
+                    className="flex-1 w-full"
+                    showsVerticalScrollIndicator={false}
+                    contentContainerClassName="items-center pb-6"
+                >
+                    <SearchInput onSearch={handleSearch} isLoading={isLoading} />
+                    <Header weatherData={weatherData} />
+                    <HourlyForecast weatherData={weatherData} />
+                    <TomorrowOutlook weatherData={weatherData} />
+                    <ThreeDayForecast weatherData={weatherData} />
+                    <ExtendedForecast weatherData={weatherData} />
+                </ScrollView>
+
+                {isLoading && weatherData && (
+                    <View className="absolute inset-0 z-50 items-center justify-center bg-black/30">
+                        <ActivityIndicator size="large" color="#3B82F6" />
+                    </View>
+                )}
+            </View>
         </MainLayout>
     );
 }

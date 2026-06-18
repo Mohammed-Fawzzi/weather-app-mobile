@@ -33,6 +33,10 @@ export default function Header({ weatherData }: Props) {
                     </Text>
                 </View>
 
+                <Text className="text-base text-white font-semibold mb-2">
+                    {weatherData.location?.name}, {weatherData.location?.country}
+                </Text>
+
                 <Text className="text-2xl text-white font-medium">
                     {weatherData.current.condition.text}
                 </Text>

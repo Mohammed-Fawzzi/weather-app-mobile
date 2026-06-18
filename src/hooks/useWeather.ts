@@ -6,7 +6,7 @@ export default function useWeather() {
     const [weatherData, setWeatherData] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchWeather = useCallback(async (city = "cairo") => {
+    const fetchWeather = useCallback(async (city = "riyadh") => {
         try {
             setIsLoading(true);
             const response = await axios.get(
