@@ -1,10 +1,11 @@
-import useWeather from "@/contexts/WeatherContext";
 import { formatHourTime } from "@/utils/weatherHelpers";
 import { Image, ScrollView, Text, View } from "react-native";
 
-export default function HourlyForecast() {
-    const { weatherData } = useWeather();
+type Props = {
+    weatherData: any | null;
+};
 
+export default function HourlyForecast({ weatherData }: Props) {
     if (!weatherData?.forecast?.forecastday?.[0]?.hour) return null;
 
     const hours = weatherData.forecast.forecastday[0].hour;

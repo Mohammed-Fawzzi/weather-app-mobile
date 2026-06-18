@@ -1,6 +1,6 @@
 import NewsCard from "@/components/news/NewsCard";
 import Loading from "@/components/common/ui/Loading";
-import useNews from "@/contexts/NewsContext";
+import useNews from "@/hooks/useNews";
 import MainLayout from "@layouts/MainLayout";
 import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -12,7 +12,7 @@ export default function NewsScreen() {
         fetchNews();
     }, [fetchNews]);
 
-    if (isLoading) {
+    if (isLoading && articles.length === 0) {
         return (
             <MainLayout>
                 <Loading />

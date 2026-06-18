@@ -1,10 +1,11 @@
-import useWeather from "@/contexts/WeatherContext";
 import { getDayLabel } from "@/utils/weatherHelpers";
 import { Image, Text, View } from "react-native";
 
-export default function ExtendedForecast() {
-    const { weatherData } = useWeather();
+type Props = {
+    weatherData: any | null;
+};
 
+export default function ExtendedForecast({ weatherData }: Props) {
     if (!weatherData?.forecast?.forecastday) return null;
 
     const remainingDays = weatherData.forecast.forecastday.slice(3);

@@ -7,7 +7,7 @@ export default function SearchInput() {
             <Ionicons name="search" size={20} color="#1E9BFF" />
 
             <TextInput
-                className="ml-2 flex-1"
+                className="ml-2 flex-1 text-slate-700 dark:text-slate-200"
                 placeholder="Search your location..."
                 placeholderTextColor="#1E9BFF"
             />

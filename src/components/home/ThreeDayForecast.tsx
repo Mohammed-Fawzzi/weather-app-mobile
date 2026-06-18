@@ -1,11 +1,12 @@
-import useWeather from "@/contexts/WeatherContext";
 import { getDayLabel } from "@/utils/weatherHelpers";
 import { getWeatherBackground } from "@/utils/weatherImages";
 import { Image, Text, View } from "react-native";
 
-export default function ThreeDayForecast() {
-    const { weatherData } = useWeather();
+type Props = {
+    weatherData: any | null;
+};
 
+export default function ThreeDayForecast({ weatherData }: Props) {
     if (!weatherData?.forecast?.forecastday) return null;
 
     const days = weatherData.forecast.forecastday.slice(0, 3);

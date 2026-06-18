@@ -1,23 +1,9 @@
 import axios from "axios";
-import {
-    createContext,
-    ReactNode,
-    useCallback,
-    useContext,
-    useState,
-} from "react";
+import { useCallback, useState } from "react";
 import { NewsArticle } from "@/types/news";
 import { NewsApiKey, NewsBaseUrl } from "@utils/variables";
 
-type NewsContextType = {
-    articles: NewsArticle[];
-    isLoading: boolean;
-    fetchNews: () => Promise<void>;
-};
-
-const NewsContext = createContext<NewsContextType | null>(null);
-
-export function NewsProvider({ children }: { children: ReactNode }) {
+export default function useNews() {
     const [articles, setArticles] = useState<NewsArticle[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -35,17 +21,5 @@ export function NewsProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
-    return (
-        <NewsContext.Provider value={{ articles, isLoading, fetchNews }}>
-            {children}
-        </NewsContext.Provider>
-    );
-}
-
-export default function useNews() {
-    const context = useContext(NewsContext);
-    if (!context) {
-        throw new Error("useNews must be used within NewsProvider");
-    }
-    return context;
+    return { articles, isLoading, fetchNews };
 }

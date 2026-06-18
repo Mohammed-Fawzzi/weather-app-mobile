@@ -1,9 +1,10 @@
-import useWeather from "@/contexts/WeatherContext";
 import { Image, Text, View } from "react-native";
 
-export default function Header() {
-    const { weatherData } = useWeather();
+type Props = {
+    weatherData: any | null;
+};
 
+export default function Header({ weatherData }: Props) {
     if (!weatherData) return null;
 
     return (

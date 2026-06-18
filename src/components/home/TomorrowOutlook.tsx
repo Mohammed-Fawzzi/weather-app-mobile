@@ -1,9 +1,10 @@
-import useWeather from "@/contexts/WeatherContext";
 import { Text, View } from "react-native";
 
-export default function TomorrowOutlook() {
-    const { weatherData } = useWeather();
+type Props = {
+    weatherData: any | null;
+};
 
+export default function TomorrowOutlook({ weatherData }: Props) {
     const tomorrow = weatherData?.forecast?.forecastday?.[1];
     if (!tomorrow) return null;
 
@@ -16,11 +17,6 @@ export default function TomorrowOutlook() {
                 <Text className="text-base title">
                     {condition.text} tomorrow. High of {Math.round(maxtemp_c)}°
                 </Text>
-
-                {/* <View className="flex-row justify-center gap-2 mt-4">
-                    <View className="w-2 h-2 rounded-full bg-slate-400" />
-                    <View className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600" />
-                </View> */}
             </View>
         </View>
     );
