@@ -25,9 +25,9 @@ export default function BottomTabs() {
                 tabBarShowLabel: false,
 
                 tabBarStyle: {
-                    height: 65,
-                    paddingBottom: 8,
-                    paddingTop: 8,
+                    height: 60,
+                    paddingBottom: 0,
+                    paddingTop: 0,
                     borderTopWidth: 0,
                     elevation: 8,
 

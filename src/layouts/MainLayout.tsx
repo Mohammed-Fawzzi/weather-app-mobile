@@ -10,7 +10,10 @@ export default function MainLayout({
     children,
 }: Props) {
     return (
-        <SafeAreaView className="screen flex-1 items-center">
+        <SafeAreaView
+            edges={["top", "left", "right"]}
+            className="screen flex-1 items-center"
+        >
             <Header />
             {children}
         </SafeAreaView>

@@ -8,7 +8,7 @@ export default function ModeToggle() {
   return (
     <Pressable
       onPress={toggleTheme}
-      className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF]"
+      className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF] dark:bg-slate-700"
     >
       <Ionicons
         name={theme === "dark" ? "sunny" : "moon"}

@@ -1,12 +1,12 @@
 import {
     createContext,
+    useCallback,
     useContext,
     useMemo,
-    useState,
     ReactNode,
 } from "react";
-
-import { colorScheme } from "nativewind";
+import { LayoutAnimation, Platform, UIManager } from "react-native";
+import { useColorScheme } from "nativewind";
 
 type Theme = "light" | "dark";
 
@@ -17,26 +17,29 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
-export function ThemeProvider({
-    children,
-}: {
-    children: ReactNode;
-}) {
-    const [theme, setTheme] = useState<Theme>("light");
+if (
+    Platform.OS === "android" &&
+    UIManager.setLayoutAnimationEnabledExperimental
+) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
-    const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light";
+export function ThemeProvider({ children }: { children: ReactNode }) {
+    const { colorScheme, toggleColorScheme } = useColorScheme();
 
-        setTheme(newTheme);
-        colorScheme.set(newTheme);
-    };
+    const toggleTheme = useCallback(() => {
+        LayoutAnimation.configureNext(
+            LayoutAnimation.create(180, "easeInEaseOut", "opacity"),
+        );
+        toggleColorScheme();
+    }, [toggleColorScheme]);
 
     const value = useMemo(
         () => ({
-            theme,
+            theme: (colorScheme ?? "light") as Theme,
             toggleTheme,
         }),
-        [theme]
+        [colorScheme, toggleTheme],
     );
 
     return (
