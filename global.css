@@ -4,26 +4,26 @@
 
 @layer components {
   .screen {
-    @apply flex-1 bg-white text-black dark:bg-slate-800 dark:text-white;
+    @apply flex-1 bg-white text-black dark:bg-slate-800 dark:text-white font-regular;
   }
 
   .card {
-    @apply rounded-2xl bg-white text-black dark:bg-slate-700 dark:text-white;
+    @apply rounded-2xl bg-white text-black dark:bg-slate-700 dark:text-white font-regular;
   }
 
   .title {
-    @apply text-black dark:text-white;
+    @apply text-black dark:text-white font-regular;
   }
 
   .subtitle {
-    @apply text-slate-700 dark:text-slate-200;
+    @apply text-slate-700 dark:text-slate-200 font-regular;
   }
 
   .secondary-text {
-    @apply text-slate-500 dark:text-slate-400;
+    @apply text-slate-500 dark:text-slate-400 font-regular;
   }
 
   .muted-text {
-    @apply text-slate-400 dark:text-slate-500;
+    @apply text-slate-400 dark:text-slate-500 font-regular;
   }
 }

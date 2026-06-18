@@ -10,7 +10,7 @@ export default function MainLayout({
     children,
 }: Props) {
     return (
-        <SafeAreaView className="screen flex-1 items-center">
+        <SafeAreaView className="screen flex-1 justify-center items-center">
             <Header />
             {children}
         </SafeAreaView>
