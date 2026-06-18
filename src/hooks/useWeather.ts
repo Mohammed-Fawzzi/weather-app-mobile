@@ -2,11 +2,13 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { ApiKey, BaseUrl } from "@utils/variables";
 
+export const DEFAULT_CITY = "riyadh";
+
 export default function useWeather() {
     const [weatherData, setWeatherData] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchWeather = useCallback(async (city = "riyadh") => {
+    const fetchWeather = useCallback(async (city = DEFAULT_CITY) => {
         try {
             setIsLoading(true);
             const response = await axios.get(

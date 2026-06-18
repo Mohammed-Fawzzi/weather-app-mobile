@@ -5,7 +5,7 @@ import Header from "@/components/home/Header";
 import HourlyForecast from "@/components/home/HourlyForecast";
 import ThreeDayForecast from "@/components/home/ThreeDayForecast";
 import TomorrowOutlook from "@/components/home/TomorrowOutlook";
-import useWeather from "@/hooks/useWeather";
+import useWeather, { DEFAULT_CITY } from "@/hooks/useWeather";
 import MainLayout from "@/layouts/MainLayout";
 import { useCallback, useEffect } from "react";
 import { ActivityIndicator, ScrollView, View } from "react-native";
@@ -38,9 +38,14 @@ export default function HomeScreen() {
                 <ScrollView
                     className="flex-1 w-full"
                     showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
                     contentContainerClassName="items-center pb-6"
                 >
-                    <SearchInput onSearch={handleSearch} isLoading={isLoading} />
+                    <SearchInput
+                        onSearch={handleSearch}
+                        isLoading={isLoading}
+                        defaultCity={DEFAULT_CITY}
+                    />
                     <Header weatherData={weatherData} />
                     <HourlyForecast weatherData={weatherData} />
                     <TomorrowOutlook weatherData={weatherData} />

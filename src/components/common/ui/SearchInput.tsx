@@ -1,13 +1,34 @@
-import { ActivityIndicator, Keyboard, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import {
+    ActivityIndicator,
+    Keyboard,
+    Pressable,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 
 type Props = {
     onSearch: (query: string) => void;
     isLoading?: boolean;
+    defaultCity?: string;
 };
 
-export default function SearchInput({ onSearch, isLoading = false }: Props) {
+export default function SearchInput({
+    onSearch,
+    isLoading = false,
+    defaultCity = "riyadh",
+}: Props) {
     const [query, setQuery] = useState("");
+
+    const handleChangeText = (text: string) => {
+        setQuery(text);
+
+        if (text.trim() === "" && query.trim() !== "" && !isLoading) {
+            onSearch(defaultCity);
+        }
+    };
 
     const handleSubmit = () => {
         const trimmedQuery = query.trim();
@@ -17,32 +38,45 @@ export default function SearchInput({ onSearch, isLoading = false }: Props) {
     };
 
     return (
-        <View className="w-11/12 h-14 flex-row items-center rounded-3xl bg-slate-100 dark:bg-slate-700/80 mt-5 overflow-hidden border border-slate-200 dark:border-slate-600">
-            <TextInput
-                className="flex-1 px-4 text-slate-700 dark:text-slate-200"
-                placeholder="Search country or city..."
-                placeholderTextColor="#1E9BFF"
-                value={query}
-                autoCapitalize="none"
-                autoCorrect={false}
-                onChangeText={setQuery}
-                onSubmitEditing={handleSubmit}
-                returnKeyType="search"
-            />
+        <View className="mt-5 w-11/12 flex-row items-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-600 dark:bg-slate-700/90">
+            <View className="h-14 flex-1 flex-row items-center px-4">
+                <Ionicons
+                    name="search-outline"
+                    size={20}
+                    color="#94A3B8"
+                    style={{ marginRight: 10 }}
+                />
 
-            <TouchableOpacity
+                <TextInput
+                    className="flex-1 text-base text-slate-800 dark:text-slate-100"
+                    placeholder="Search country or city..."
+                    placeholderTextColor="#94A3B8"
+                    value={query}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={handleChangeText}
+                    onSubmitEditing={handleSubmit}
+                    returnKeyType="search"
+                    editable={!isLoading}
+                />
+            </View>
+
+            <Pressable
                 onPress={handleSubmit}
-                className="h-full items-center justify-center rounded-r-3xl bg-blue-500 px-5"
-                activeOpacity={0.8}
                 disabled={isLoading}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                className="h-14 min-w-[88px] items-center justify-center rounded-r-2xl bg-blue-500 px-5 active:bg-blue-600 disabled:opacity-70"
             >
                 {isLoading ? (
                     <ActivityIndicator size="small" color="#fff" />
                 ) : (
-                    <Text className="text-sm font-semibold text-white">بحث</Text>
+                    <View className="flex-row items-center gap-1.5">
+                        <Ionicons name="search" size={18} color="#fff" />
+                        <Text className="text-base font-semibold text-white">
+                            بحث
+                        </Text>
+                    </View>
                 )}
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 }
