@@ -33,7 +33,7 @@ export default function BottomTabs() {
 
                     backgroundColor:
                         theme === "dark"
-                            ? "#1E293B"
+                            ? "#101620"
                             : "#FFFFFF",
                 },
 

@@ -10,7 +10,7 @@ export default function useWeather() {
         try {
             setIsLoading(true);
             const weatherData = await axios.get(`${BaseUrl}/forecast.json?key=${ApiKey}&q=cairo&days=7`);
-            setWeatherData(weatherData.data.forecast.forecastday);
+            setWeatherData(weatherData.data);
             setIsLoading(false);
             return weatherData.data.forecast.forecastday;
         } catch (error) {
