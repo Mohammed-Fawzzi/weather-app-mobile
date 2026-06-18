@@ -29,10 +29,11 @@ export default function NewsScreen() {
             >
                 <View className="w-11/12 self-center mt-2 mb-4">
                     <Text className="text-xl font-bold title">
-                        Weather News
+                        Explore
                     </Text>
+
                     <Text className="text-sm secondary-text mt-1">
-                        Latest headlines about weather
+                        Discover the latest stories and trends
                     </Text>
                 </View>
 
