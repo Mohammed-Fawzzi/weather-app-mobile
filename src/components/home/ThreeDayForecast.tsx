@@ -58,8 +58,8 @@ export default function ThreeDayForecast({
                         </View>
                     </View>
 
-                    <View className="bg-white dark:bg-slate-700 py-2 items-center">
-                        <Text className="text-sm font-bold text-black dark:text-white">
+                    <View className="bg-slate-100 dark:bg-slate-700 py-2 items-center">
+                        <Text className="text-sm font-medium text-black dark:text-white">
                             {getDayLabel(day.date, index)}
                         </Text>
                     </View>

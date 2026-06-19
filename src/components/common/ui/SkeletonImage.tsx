@@ -27,6 +27,18 @@ function getSourceKey(source: ImageSourcePropType) {
     return source.uri ?? JSON.stringify(source);
 }
 
+function isLocalSource(source: ImageSourcePropType) {
+    if (typeof source === "number") {
+        return true;
+    }
+
+    if (Array.isArray(source)) {
+        return source.every((item) => typeof item === "number");
+    }
+
+    return false;
+}
+
 export default function SkeletonImage({
     source,
     className = "w-full h-full",
@@ -34,12 +46,22 @@ export default function SkeletonImage({
     resizeMode = "cover",
     blurRadius,
 }: Props) {
-    const [isLoading, setIsLoading] = useState(true);
+    const localSource = isLocalSource(source);
     const sourceKey = getSourceKey(source);
+    const [isLoading, setIsLoading] = useState(!localSource);
 
     useEffect(() => {
+        if (localSource) {
+            setIsLoading(false);
+            return;
+        }
+
         setIsLoading(true);
-    }, [sourceKey]);
+
+        const timer = setTimeout(() => setIsLoading(false), 5000);
+
+        return () => clearTimeout(timer);
+    }, [sourceKey, localSource]);
 
     return (
         <View className={`relative overflow-hidden ${className}`}>
@@ -54,7 +76,12 @@ export default function SkeletonImage({
                 className={`h-full w-full ${isLoading ? "opacity-0" : "opacity-100"}`}
                 resizeMode={resizeMode}
                 blurRadius={blurRadius}
-                onLoadStart={() => setIsLoading(true)}
+                onLoad={() => setIsLoading(false)}
+                onLoadStart={() => {
+                    if (!localSource) {
+                        setIsLoading(true);
+                    }
+                }}
                 onLoadEnd={() => setIsLoading(false)}
                 onError={() => setIsLoading(false)}
             />

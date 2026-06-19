@@ -20,6 +20,13 @@ const PROFILE_IMAGE = "https://github.com/Mohammed-Fawzzi.png";
 
 const SOCIAL_LINKS = [
     {
+        label: "Portfolio",
+        url: "https://www.mohamedfawzzi.site/",
+        family: "ion" as const,
+        icon: "globe-outline",
+        color: "#1E9BFF",
+    },
+    {
         label: "LinkedIn",
         url: "https://www.linkedin.com/in/mohamed-fawzzi98/",
         family: "ion" as const,
@@ -85,7 +92,6 @@ export default function Sidebar({ isOpen, onClose }: Props) {
 
     const accentColor = "#1E9BFF";
     const githubColor = theme === "dark" ? "#FFFFFF" : "#181717";
-    const iconColor = theme === "dark" ? "#FFFFFF" : "#1E293B";
 
     return (
         <Modal
@@ -152,26 +158,26 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                         </Text>
                     </View>
 
-                    <View className="mt-10 px-5">
+                    <View className="mt-10 items-center px-5">
                         <Text className="mb-4 text-sm font-semibold secondary-text uppercase tracking-wide">
                             Connect with me
                         </Text>
 
-                        {SOCIAL_LINKS.map((link) => {
-                            const brandColor =
-                                link.label === "GitHub"
-                                    ? githubColor
-                                    : link.color;
+                        <View className="flex-row flex-wrap items-center justify-center gap-3">
+                            {SOCIAL_LINKS.map((link) => {
+                                const brandColor =
+                                    link.label === "GitHub"
+                                        ? githubColor
+                                        : link.color;
 
-                            return (
-                                <Pressable
-                                    key={link.label}
-                                    onPress={() => handleOpenLink(link.url)}
-                                    className="mb-3 flex-row items-center rounded-2xl bg-slate-50 px-4 py-3.5 active:bg-slate-100 dark:bg-slate-700/80 dark:active:bg-slate-700"
-                                    accessibilityRole="link"
-                                    accessibilityLabel={link.label}
-                                >
-                                    <View className="mr-4 h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF] dark:bg-slate-600">
+                                return (
+                                    <Pressable
+                                        key={link.label}
+                                        onPress={() => handleOpenLink(link.url)}
+                                        className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF] active:bg-slate-100 dark:bg-slate-600 dark:active:bg-slate-500"
+                                        accessibilityRole="link"
+                                        accessibilityLabel={link.label}
+                                    >
                                         {link.family === "fa5" ? (
                                             <FontAwesome5
                                                 name={link.icon}
@@ -183,6 +189,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                                             <Ionicons
                                                 name={
                                                     link.icon as
+                                                        | "globe-outline"
                                                         | "logo-whatsapp"
                                                         | "logo-github"
                                                         | "logo-linkedin"
@@ -191,20 +198,10 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                                                 color={brandColor}
                                             />
                                         )}
-                                    </View>
-
-                                    <Text className="flex-1 text-base font-medium title">
-                                        {link.label}
-                                    </Text>
-
-                                    <Ionicons
-                                        name="open-outline"
-                                        size={18}
-                                        color={iconColor}
-                                    />
-                                </Pressable>
-                            );
-                        })}
+                                    </Pressable>
+                                );
+                            })}
+                        </View>
                     </View>
                 </Animated.View>
             </View>
