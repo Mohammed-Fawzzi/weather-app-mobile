@@ -2,10 +2,10 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { NewsStackParamList } from "@/navigation/types";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WebView, WebViewNavigation } from "react-native-webview";
+import { WebView } from "react-native-webview";
 
 type Props = NativeStackScreenProps<NewsStackParamList, "NewsDetail">;
 
@@ -13,16 +13,31 @@ export default function NewsDetailScreen({ navigation, route }: Props) {
     const { article } = route.params;
     const { theme } = useTheme();
     const [isLoading, setIsLoading] = useState(true);
+    const hasLoadedRef = useRef(false);
 
     const iconColor = theme === "dark" ? "#FFFFFF" : "#000000";
 
-    const handleNavigationChange = useCallback((navState: WebViewNavigation) => {
-        setIsLoading(navState.loading);
-    }, []);
-
     const hideLoading = useCallback(() => {
+        if (hasLoadedRef.current) {
+            return;
+        }
+
+        hasLoadedRef.current = true;
         setIsLoading(false);
     }, []);
+
+    const handleLoadProgress = useCallback(
+        ({ nativeEvent }: { nativeEvent: { progress: number } }) => {
+            if (nativeEvent.progress >= 0.8) {
+                hideLoading();
+            }
+        },
+        [hideLoading],
+    );
+
+    const handleLoad = useCallback(() => {
+        hideLoading();
+    }, [hideLoading]);
 
     return (
         <SafeAreaView
@@ -53,8 +68,8 @@ export default function NewsDetailScreen({ navigation, route }: Props) {
 
                 <WebView
                     source={{ uri: article.url }}
-                    onNavigationStateChange={handleNavigationChange}
-                    onLoad={hideLoading}
+                    onLoadProgress={handleLoadProgress}
+                    onLoad={handleLoad}
                     onError={hideLoading}
                     onHttpError={hideLoading}
                     style={{ flex: 1 }}
