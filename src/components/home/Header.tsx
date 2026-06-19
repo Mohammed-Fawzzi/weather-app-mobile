@@ -1,32 +1,45 @@
-import { Image, Text, View } from "react-native";
+import Skeleton from "@/components/common/ui/Skeleton";
+import SkeletonImage from "@/components/common/ui/SkeletonImage";
+import { Text, View } from "react-native";
 
 type Props = {
     weatherData: any | null;
+    showImages?: boolean;
 };
 
-export default function Header({ weatherData }: Props) {
+export default function Header({ weatherData, showImages = true }: Props) {
     if (!weatherData) return null;
 
     return (
         <View className="relative w-11/12 self-center mt-6">
             <View className="relative w-full h-64">
-                <Image
-                    source={require("@assets/images/hero-current-weather.png")}
-                    className="w-full h-full rounded-3xl"
-                    blurRadius={1}
-                />
+                {showImages ? (
+                    <SkeletonImage
+                        source={require("@assets/images/hero-current-weather.png")}
+                        className="h-full w-full rounded-3xl"
+                        skeletonClassName="rounded-3xl"
+                        blurRadius={1}
+                    />
+                ) : (
+                    <Skeleton className="h-full w-full rounded-3xl" />
+                )}
 
                 <View className="absolute inset-0 bg-black/35 rounded-3xl" />
             </View>
 
             <View className="absolute inset-0 items-center justify-center px-5">
                 <View className="flex-row justify-center items-center">
-                    <Image
-                        source={{
-                            uri: `https:${weatherData.current.condition.icon}`,
-                        }}
-                        className="w-24 h-24"
-                    />
+                    {showImages ? (
+                        <SkeletonImage
+                            source={{
+                                uri: `https:${weatherData.current.condition.icon}`,
+                            }}
+                            className="h-24 w-24"
+                            resizeMode="contain"
+                        />
+                    ) : (
+                        <Skeleton className="h-24 w-24 rounded-full" />
+                    )}
 
                     <Text className="text-5xl text-white font-medium">
                         {Math.round(weatherData.current.temp_c)}°

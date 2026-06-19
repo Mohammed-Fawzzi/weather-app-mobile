@@ -3,7 +3,8 @@ import { NewsStackParamList } from "@/navigation/types";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useCallback, useRef, useState } from "react";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import NewsDetailSkeleton from "@/components/news/NewsDetailSkeleton";
+import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
@@ -61,8 +62,8 @@ export default function NewsDetailScreen({ navigation, route }: Props) {
 
             <View className="flex-1">
                 {isLoading ? (
-                    <View className="absolute inset-0 z-10 items-center justify-center">
-                        <ActivityIndicator size="large" color="#1E9BFF" />
+                    <View className="absolute inset-0 z-10 bg-white dark:bg-slate-800">
+                        <NewsDetailSkeleton />
                     </View>
                 ) : null}
 

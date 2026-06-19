@@ -1,11 +1,17 @@
+import Skeleton from "@/components/common/ui/Skeleton";
+import SkeletonImage from "@/components/common/ui/SkeletonImage";
 import { formatHourTime } from "@/utils/weatherHelpers";
-import { Image, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 type Props = {
     weatherData: any | null;
+    showImages?: boolean;
 };
 
-export default function HourlyForecast({ weatherData }: Props) {
+export default function HourlyForecast({
+    weatherData,
+    showImages = true,
+}: Props) {
     if (!weatherData?.forecast?.forecastday?.[0]?.hour) return null;
 
     const hours = weatherData.forecast.forecastday[0].hour;
@@ -23,10 +29,17 @@ export default function HourlyForecast({ weatherData }: Props) {
                             <Text className="text-xs secondary-text mb-2">
                                 {formatHourTime(hour.time)}
                             </Text>
-                            <Image
-                                source={{ uri: `https:${hour.condition.icon}` }}
-                                className="w-8 h-8 mb-2"
-                            />
+                            {showImages ? (
+                                <SkeletonImage
+                                    source={{
+                                        uri: `https:${hour.condition.icon}`,
+                                    }}
+                                    className="mb-2 h-8 w-8"
+                                    resizeMode="contain"
+                                />
+                            ) : (
+                                <Skeleton className="mb-2 h-8 w-8 rounded-full" />
+                            )}
                             <Text className="text-sm font-medium title mb-2">
                                 {Math.round(hour.temp_c)}°
                             </Text>

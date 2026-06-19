@@ -1,13 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import {
-    ActivityIndicator,
-    Keyboard,
-    Pressable,
-    Text,
-    TextInput,
-    View,
-} from "react-native";
+import Skeleton from "@/components/common/ui/Skeleton";
+import { Keyboard, Pressable, Text, TextInput, View } from "react-native";
 
 type Props = {
     onSearch: (query: string) => void;
@@ -67,7 +61,7 @@ export default function SearchInput({
                 className="h-14 min-w-[88px] items-center justify-center rounded-r-2xl bg-blue-500 px-5 active:bg-blue-600 disabled:opacity-70"
             >
                 {isLoading ? (
-                    <ActivityIndicator size="small" color="#fff" />
+                    <Skeleton className="h-5 w-16 rounded-md bg-blue-400 dark:bg-blue-400" />
                 ) : (
                     <View className="flex-row items-center gap-1.5">
                         <Ionicons name="search" size={18} color="#fff" />

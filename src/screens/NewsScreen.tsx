@@ -1,5 +1,5 @@
 import NewsCard from "@/components/news/NewsCard";
-import Loading from "@/components/common/ui/Loading";
+import NewsScreenSkeleton from "@/components/news/NewsScreenSkeleton";
 import useNews from "@/hooks/useNews";
 import MainLayout from "@layouts/MainLayout";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ export default function NewsScreen() {
     if (isLoading && articles.length === 0) {
         return (
             <MainLayout>
-                <Loading />
+                <NewsScreenSkeleton />
             </MainLayout>
         );
     }

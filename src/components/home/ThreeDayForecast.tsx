@@ -1,12 +1,18 @@
+import Skeleton from "@/components/common/ui/Skeleton";
+import SkeletonImage from "@/components/common/ui/SkeletonImage";
 import { getDayLabel } from "@/utils/weatherHelpers";
 import { getWeatherBackground } from "@/utils/weatherImages";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 type Props = {
     weatherData: any | null;
+    showImages?: boolean;
 };
 
-export default function ThreeDayForecast({ weatherData }: Props) {
+export default function ThreeDayForecast({
+    weatherData,
+    showImages = true,
+}: Props) {
     if (!weatherData?.forecast?.forecastday) return null;
 
     const days = weatherData.forecast.forecastday.slice(0, 3);
@@ -16,18 +22,30 @@ export default function ThreeDayForecast({ weatherData }: Props) {
             {days.map((day: any, index: number) => (
                 <View key={day.date} className="flex-1 rounded-2xl overflow-hidden">
                     <View className="relative h-44">
-                        <Image
-                            source={getWeatherBackground(day.day.condition.text)}
-                            className="w-full h-full"
-                            resizeMode="cover"
-                        />
+                        {showImages ? (
+                            <SkeletonImage
+                                source={getWeatherBackground(
+                                    day.day.condition.text,
+                                )}
+                                className="h-full w-full"
+                            />
+                        ) : (
+                            <Skeleton className="h-full w-full rounded-none" />
+                        )}
                         <View className="absolute inset-0 bg-black/30" />
 
                         <View className="absolute inset-0 items-center justify-center px-2 pb-6">
-                            <Image
-                                source={{ uri: `https:${day.day.condition.icon}` }}
-                                className="w-10 h-10"
-                            />
+                            {showImages ? (
+                                <SkeletonImage
+                                    source={{
+                                        uri: `https:${day.day.condition.icon}`,
+                                    }}
+                                    className="h-10 w-10"
+                                    resizeMode="contain"
+                                />
+                            ) : (
+                                <Skeleton className="h-10 w-10 rounded-full" />
+                            )}
                             <Text
                                 className="text-white text-xs font-medium mt-1 text-center"
                                 numberOfLines={1}

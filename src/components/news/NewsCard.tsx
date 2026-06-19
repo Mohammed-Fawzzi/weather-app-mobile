@@ -4,13 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
-import {
-    ActivityIndicator,
-    Image,
-    Pressable,
-    Text,
-    View,
-} from "react-native";
+import Skeleton from "@/components/common/ui/Skeleton";
+import { Image, Pressable, Text, View } from "react-native";
 
 type NavigationProp = NativeStackNavigationProp<
     NewsStackParamList,
@@ -44,7 +39,7 @@ function NewsCardImage({ uri }: { uri: string }) {
                             color="#94A3B8"
                         />
                     ) : (
-                        <ActivityIndicator size="small" color="#1E9BFF" />
+                        <Skeleton className="h-full w-full rounded-none" />
                     )}
                 </View>
             )}
