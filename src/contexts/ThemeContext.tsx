@@ -54,6 +54,7 @@ function isThemeApplied(
 export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
     const { colorScheme, setColorScheme } = useColorScheme();
     const [preference, setPreference] = useState<ThemePreference | null>(null);
+    const [isBootstrapped, setIsBootstrapped] = useState(false);
 
     useEffect(() => {
         getStoredTheme().then((stored) => {
@@ -65,10 +66,11 @@ export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
     const themeApplied = isThemeApplied(preference, colorScheme);
 
     useEffect(() => {
-        if (themeApplied) {
+        if (themeApplied && !isBootstrapped) {
+            setIsBootstrapped(true);
             onReady?.();
         }
-    }, [themeApplied, onReady]);
+    }, [themeApplied, isBootstrapped, onReady]);
 
     const toggleTheme = useCallback(() => {
         const current = (colorScheme ?? "light") as Theme;
@@ -90,7 +92,7 @@ export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
         [colorScheme, toggleTheme],
     );
 
-    if (!themeApplied) {
+    if (!isBootstrapped) {
         return null;
     }
 

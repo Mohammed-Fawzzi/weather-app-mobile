@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "@screens/HomeScreen";
-import NewsScreen from "@screens/NewsScreen";
+import NewsStack from "./NewsStack";
 import { View } from "react-native";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -88,7 +88,7 @@ export default function BottomTabs() {
 
             <Tab.Screen
                 name="News"
-                component={NewsScreen}
+                component={NewsStack}
                 options={{
                     title: "News",
                 }}
