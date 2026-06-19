@@ -24,39 +24,43 @@ function formatDate(isoDate: string) {
     });
 }
 
-function NewsCardImage({ uri }: { uri: string }) {
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
+function NewsImagePlaceholder() {
+    return (
+        <View className="h-40 w-full items-center justify-center bg-slate-100 dark:bg-slate-600">
+            <Ionicons name="newspaper-outline" size={40} color="#94A3B8" />
+        </View>
+    );
+}
+
+function NewsCardImage({ uri }: { uri: string | null | undefined }) {
+    const imageUri = uri?.trim() || null;
+    const [isLoading, setIsLoading] = useState(!!imageUri);
+    const [hasError, setHasError] = useState(!imageUri);
+
+    if (!imageUri || hasError) {
+        return <NewsImagePlaceholder />;
+    }
 
     return (
         <View className="relative w-full h-40 bg-slate-100 dark:bg-slate-600">
-            {(isLoading || hasError) && (
-                <View className="absolute inset-0 items-center justify-center">
-                    {hasError ? (
-                        <Ionicons
-                            name="image-outline"
-                            size={36}
-                            color="#94A3B8"
-                        />
-                    ) : (
-                        <Skeleton className="h-full w-full rounded-none" />
-                    )}
+            {isLoading && (
+                <View className="absolute inset-0">
+                    <Skeleton className="h-full w-full rounded-none" />
                 </View>
             )}
 
-            {!hasError && (
-                <Image
-                    source={{ uri }}
-                    className={`w-full h-40 ${isLoading ? "opacity-0" : "opacity-100"}`}
-                    resizeMode="cover"
-                    onLoadStart={() => setIsLoading(true)}
-                    onLoadEnd={() => setIsLoading(false)}
-                    onError={() => {
-                        setIsLoading(false);
-                        setHasError(true);
-                    }}
-                />
-            )}
+            <Image
+                source={{ uri: imageUri }}
+                className={`w-full h-40 ${isLoading ? "opacity-0" : "opacity-100"}`}
+                resizeMode="cover"
+                onLoad={() => setIsLoading(false)}
+                onLoadStart={() => setIsLoading(true)}
+                onLoadEnd={() => setIsLoading(false)}
+                onError={() => {
+                    setIsLoading(false);
+                    setHasError(true);
+                }}
+            />
         </View>
     );
 }
@@ -70,7 +74,7 @@ export default function NewsCard({ article }: Props) {
             className="card overflow-hidden mb-4"
             onPress={() => navigation.navigate("NewsDetail", { article })}
         >
-            {urlToImage ? <NewsCardImage uri={urlToImage} /> : null}
+            <NewsCardImage uri={urlToImage} />
 
             <View className="p-4">
                 <Text className="text-xs secondary-text mb-2">

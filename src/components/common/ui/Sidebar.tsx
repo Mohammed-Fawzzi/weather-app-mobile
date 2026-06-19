@@ -16,7 +16,7 @@ import SkeletonImage from "./SkeletonImage";
 
 const SIDEBAR_WIDTH = Math.min(Dimensions.get("window").width * 0.8, 300);
 
-const PROFILE_IMAGE = "https://github.com/Mohammed-Fawzzi.png";
+const PROFILE_IMAGE = require("@assets/images/hero.png");
 
 const SOCIAL_LINKS = [
     {
@@ -142,7 +142,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     <View className="items-center px-6 pt-8">
                         <View className="h-28 w-28 overflow-hidden rounded-full border-4 border-[#EAF6FF] dark:border-slate-600">
                             <SkeletonImage
-                                source={{ uri: PROFILE_IMAGE }}
+                                source={PROFILE_IMAGE}
                                 className="h-full w-full"
                                 skeletonClassName="rounded-full"
                                 resizeMode="cover"
@@ -154,7 +154,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                         </Text>
 
                         <Text className="mt-1 text-center text-sm secondary-text">
-                            Front-End Developer
+                            Web & Mobile Developer
                         </Text>
                     </View>
 
