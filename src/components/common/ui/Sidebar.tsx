@@ -117,7 +117,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     style={{
                         width: SIDEBAR_WIDTH,
                         transform: [{ translateX: slideAnim }],
-                        paddingTop: 10,
+                        paddingTop: insets.top,
                         paddingBottom: insets.bottom,
                     }}
                     className="absolute bottom-0 right-0 top-0 bg-white shadow-xl dark:bg-slate-800"

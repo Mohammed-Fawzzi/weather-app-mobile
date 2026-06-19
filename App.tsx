@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -26,8 +27,10 @@ export default function App() {
     }, [fontsLoaded, themeReady]);
 
     return (
-        <ThemeProvider onReady={handleThemeReady}>
-            {fontsLoaded ? <AppNavigator /> : null}
-        </ThemeProvider>
+        <SafeAreaProvider>
+            <ThemeProvider onReady={handleThemeReady}>
+                {fontsLoaded ? <AppNavigator /> : null}
+            </ThemeProvider>
+        </SafeAreaProvider>
     );
 }
