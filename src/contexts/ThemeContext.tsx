@@ -1,8 +1,15 @@
 import {
+    getStoredTheme,
+    saveTheme,
+    ThemePreference,
+} from "@/lib/themeStorage";
+import {
     createContext,
     useCallback,
     useContext,
+    useEffect,
     useMemo,
+    useState,
     ReactNode,
 } from "react";
 import { LayoutAnimation, Platform, UIManager } from "react-native";
@@ -15,6 +22,11 @@ type ThemeContextType = {
     toggleTheme: () => void;
 };
 
+type ThemeProviderProps = {
+    children: ReactNode;
+    onReady?: () => void;
+};
+
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 if (
@@ -24,15 +36,51 @@ if (
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-    const { colorScheme, toggleColorScheme } = useColorScheme();
+function isThemeApplied(
+    preference: ThemePreference | null,
+    colorScheme: "light" | "dark" | undefined,
+) {
+    if (preference === null) {
+        return false;
+    }
+
+    if (preference === "system") {
+        return colorScheme !== undefined;
+    }
+
+    return colorScheme === preference;
+}
+
+export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
+    const { colorScheme, setColorScheme } = useColorScheme();
+    const [preference, setPreference] = useState<ThemePreference | null>(null);
+
+    useEffect(() => {
+        getStoredTheme().then((stored) => {
+            setPreference(stored);
+            setColorScheme(stored);
+        });
+    }, [setColorScheme]);
+
+    const themeApplied = isThemeApplied(preference, colorScheme);
+
+    useEffect(() => {
+        if (themeApplied) {
+            onReady?.();
+        }
+    }, [themeApplied, onReady]);
 
     const toggleTheme = useCallback(() => {
+        const current = (colorScheme ?? "light") as Theme;
+        const next: Theme = current === "dark" ? "light" : "dark";
+
         LayoutAnimation.configureNext(
             LayoutAnimation.create(180, "easeInEaseOut", "opacity"),
         );
-        toggleColorScheme();
-    }, [toggleColorScheme]);
+        setColorScheme(next);
+        setPreference(next);
+        void saveTheme(next);
+    }, [colorScheme, setColorScheme]);
 
     const value = useMemo(
         () => ({
@@ -41,6 +89,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         }),
         [colorScheme, toggleTheme],
     );
+
+    if (!themeApplied) {
+        return null;
+    }
 
     return (
         <ThemeContext.Provider value={value}>
