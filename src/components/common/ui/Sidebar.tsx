@@ -111,12 +111,12 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     style={{
                         width: SIDEBAR_WIDTH,
                         transform: [{ translateX: slideAnim }],
-                        paddingTop: insets.top,
+                        paddingTop: 10,
                         paddingBottom: insets.bottom,
                     }}
                     className="absolute bottom-0 right-0 top-0 bg-white shadow-xl dark:bg-slate-800"
                 >
-                    <View className="flex-row items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-600">
+                    <View className="flex-row items-center justify-between px-5 pb-4 border-b border-slate-200 dark:border-slate-600">
                         <Pressable
                             onPress={onClose}
                             className="h-10 w-10 items-center justify-center rounded-full bg-[#EAF6FF] dark:bg-slate-700"
