@@ -66,7 +66,7 @@ export default function SearchInput({
                     <View className="flex-row items-center gap-1.5">
                         <Ionicons name="search" size={18} color="#fff" />
                         <Text className="text-base font-semibold text-white">
-                            بحث
+                            Search
                         </Text>
                     </View>
                 )}
