@@ -117,7 +117,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     style={{
                         width: SIDEBAR_WIDTH,
                         transform: [{ translateX: slideAnim }],
-                        paddingTop: insets.top,
+                        paddingTop: 10,
                         paddingBottom: insets.bottom,
                     }}
                     className="absolute bottom-0 right-0 top-0 bg-white shadow-xl dark:bg-slate-800"
@@ -135,7 +135,6 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                                 color={accentColor}
                             />
                         </Pressable>
-
                         <ModeToggle />
                     </View>
 
@@ -189,10 +188,10 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                                             <Ionicons
                                                 name={
                                                     link.icon as
-                                                        | "globe-outline"
-                                                        | "logo-whatsapp"
-                                                        | "logo-github"
-                                                        | "logo-linkedin"
+                                                    | "globe-outline"
+                                                    | "logo-whatsapp"
+                                                    | "logo-github"
+                                                    | "logo-linkedin"
                                                 }
                                                 size={22}
                                                 color={brandColor}
@@ -203,6 +202,10 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                             })}
                         </View>
                     </View>
+
+                    <Text className="mt-5 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-[#EAF6FF] dark:border-slate-600 pt-3">
+                        v1.0.1
+                    </Text>
                 </Animated.View>
             </View>
         </Modal>

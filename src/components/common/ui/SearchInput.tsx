@@ -64,7 +64,6 @@ export default function SearchInput({
                     <Skeleton className="h-5 w-16 rounded-md bg-blue-400 dark:bg-blue-400" />
                 ) : (
                     <View className="flex-row items-center gap-1.5">
-                        <Ionicons name="search" size={18} color="#fff" />
                         <Text className="text-base font-semibold text-white">
                             Search
                         </Text>
