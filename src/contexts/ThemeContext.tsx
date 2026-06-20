@@ -12,7 +12,12 @@ import {
     useState,
     ReactNode,
 } from "react";
-import { LayoutAnimation, Platform, UIManager } from "react-native";
+import {
+    LayoutAnimation,
+    Platform,
+    StatusBar as RNStatusBar,
+    UIManager,
+} from "react-native";
 import { useColorScheme } from "nativewind";
 
 type Theme = "light" | "dark";
@@ -64,6 +69,14 @@ export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
     }, [setColorScheme]);
 
     const themeApplied = isThemeApplied(preference, colorScheme);
+    const theme = (colorScheme ?? "light") as Theme;
+
+    useEffect(() => {
+        RNStatusBar.setBarStyle(
+            theme === "dark" ? "light-content" : "dark-content",
+            true,
+        );
+    }, [theme]);
 
     useEffect(() => {
         if (themeApplied && !isBootstrapped) {
@@ -86,10 +99,10 @@ export function ThemeProvider({ children, onReady }: ThemeProviderProps) {
 
     const value = useMemo(
         () => ({
-            theme: (colorScheme ?? "light") as Theme,
+            theme,
             toggleTheme,
         }),
-        [colorScheme, toggleTheme],
+        [theme, toggleTheme],
     );
 
     if (!isBootstrapped) {

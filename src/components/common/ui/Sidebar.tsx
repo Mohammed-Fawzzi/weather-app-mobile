@@ -3,10 +3,11 @@ import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
 import {
     Animated,
+    BackHandler,
     Dimensions,
     Linking,
-    Modal,
     Pressable,
+    StyleSheet,
     Text,
     View,
 } from "react-native";
@@ -82,6 +83,22 @@ export default function Sidebar({ isOpen, onClose }: Props) {
         ]).start();
     }, [isOpen, slideAnim, fadeAnim]);
 
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        const subscription = BackHandler.addEventListener(
+            "hardwareBackPress",
+            () => {
+                onClose();
+                return true;
+            },
+        );
+
+        return () => subscription.remove();
+    }, [isOpen, onClose]);
+
     const handleOpenLink = async (url: string) => {
         const canOpen = await Linking.canOpenURL(url);
 
@@ -94,120 +111,115 @@ export default function Sidebar({ isOpen, onClose }: Props) {
     const githubColor = theme === "dark" ? "#FFFFFF" : "#181717";
 
     return (
-        <Modal
-            visible={isOpen}
-            transparent
-            animationType="none"
-            onRequestClose={onClose}
+        <View
+            pointerEvents={isOpen ? "auto" : "none"}
+            style={StyleSheet.absoluteFill}
+            className="z-50"
+            accessibilityElementsHidden={!isOpen}
+            importantForAccessibility={isOpen ? "auto" : "no-hide-descendants"}
         >
-            <View className="flex-1">
-                <Animated.View
-                    className="absolute inset-0 bg-black/45"
-                    style={{ opacity: fadeAnim }}
-                >
+            <Animated.View
+                className="absolute inset-0 bg-black/45"
+                style={{ opacity: fadeAnim }}
+            >
+                <Pressable
+                    className="flex-1"
+                    onPress={onClose}
+                    accessibilityRole="button"
+                    accessibilityLabel="Close sidebar"
+                />
+            </Animated.View>
+
+            <Animated.View
+                style={{
+                    width: SIDEBAR_WIDTH,
+                    transform: [{ translateX: slideAnim }],
+                    paddingTop: insets.top + 10,
+                    paddingBottom: insets.bottom,
+                }}
+                className="absolute bottom-0 right-0 top-0 bg-white shadow-xl dark:bg-slate-800"
+            >
+                <View className="flex-row items-center justify-between px-5 pb-4 border-b border-slate-200 dark:border-slate-600">
                     <Pressable
-                        className="flex-1"
                         onPress={onClose}
+                        className="h-10 w-10 items-center justify-center rounded-full bg-[#EAF6FF] dark:bg-slate-700"
                         accessibilityRole="button"
-                        accessibilityLabel="Close sidebar"
-                    />
-                </Animated.View>
+                        accessibilityLabel="Close menu"
+                    >
+                        <Ionicons name="close" size={22} color={accentColor} />
+                    </Pressable>
+                    <ModeToggle />
+                </View>
 
-                <Animated.View
-                    style={{
-                        width: SIDEBAR_WIDTH,
-                        transform: [{ translateX: slideAnim }],
-                        paddingTop: 10,
-                        paddingBottom: insets.bottom,
-                    }}
-                    className="absolute bottom-0 right-0 top-0 bg-white shadow-xl dark:bg-slate-800"
-                >
-                    <View className="flex-row items-center justify-between px-5 pb-4 border-b border-slate-200 dark:border-slate-600">
-                        <Pressable
-                            onPress={onClose}
-                            className="h-10 w-10 items-center justify-center rounded-full bg-[#EAF6FF] dark:bg-slate-700"
-                            accessibilityRole="button"
-                            accessibilityLabel="Close menu"
-                        >
-                            <Ionicons
-                                name="close"
-                                size={22}
-                                color={accentColor}
-                            />
-                        </Pressable>
-                        <ModeToggle />
+                <View className="items-center px-6 pt-8">
+                    <View className="h-28 w-28 overflow-hidden rounded-full border-4 border-[#EAF6FF] dark:border-slate-600">
+                        <SkeletonImage
+                            source={PROFILE_IMAGE}
+                            className="h-full w-full"
+                            skeletonClassName="rounded-full"
+                            resizeMode="cover"
+                        />
                     </View>
 
-                    <View className="items-center px-6 pt-8">
-                        <View className="h-28 w-28 overflow-hidden rounded-full border-4 border-[#EAF6FF] dark:border-slate-600">
-                            <SkeletonImage
-                                source={PROFILE_IMAGE}
-                                className="h-full w-full"
-                                skeletonClassName="rounded-full"
-                                resizeMode="cover"
-                            />
-                        </View>
+                    <Text className="mt-4 text-xl font-bold title">
+                        Mohamed Fawzzi
+                    </Text>
 
-                        <Text className="mt-4 text-xl font-bold title">
-                            Mohamed Fawzzi
-                        </Text>
+                    <Text className="mt-1 text-center text-sm secondary-text">
+                        Web & Mobile Developer
+                    </Text>
+                </View>
 
-                        <Text className="mt-1 text-center text-sm secondary-text">
-                            Web & Mobile Developer
-                        </Text>
-                    </View>
+                <View className="mt-10 items-center px-5">
+                    <Text className="mb-4 text-sm font-semibold secondary-text uppercase tracking-wide">
+                        Connect with me
+                    </Text>
 
-                    <View className="mt-10 items-center px-5">
-                        <Text className="mb-4 text-sm font-semibold secondary-text uppercase tracking-wide">
-                            Connect with me
-                        </Text>
+                    <View className="flex-row flex-wrap items-center justify-center gap-3">
+                        {SOCIAL_LINKS.map((link) => {
+                            const brandColor =
+                                link.label === "GitHub"
+                                    ? githubColor
+                                    : link.color;
 
-                        <View className="flex-row flex-wrap items-center justify-center gap-3">
-                            {SOCIAL_LINKS.map((link) => {
-                                const brandColor =
-                                    link.label === "GitHub"
-                                        ? githubColor
-                                        : link.color;
-
-                                return (
-                                    <Pressable
-                                        key={link.label}
-                                        onPress={() => handleOpenLink(link.url)}
-                                        className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF] active:bg-slate-100 dark:bg-slate-600 dark:active:bg-slate-500"
-                                        accessibilityRole="link"
-                                        accessibilityLabel={link.label}
-                                    >
-                                        {link.family === "fa5" ? (
-                                            <FontAwesome5
-                                                name={link.icon}
-                                                size={22}
-                                                color={brandColor}
-                                                brand
-                                            />
-                                        ) : (
-                                            <Ionicons
-                                                name={
-                                                    link.icon as
+                            return (
+                                <Pressable
+                                    key={link.label}
+                                    onPress={() => handleOpenLink(link.url)}
+                                    className="h-11 w-11 items-center justify-center rounded-full bg-[#EAF6FF] active:bg-slate-100 dark:bg-slate-600 dark:active:bg-slate-500"
+                                    accessibilityRole="link"
+                                    accessibilityLabel={link.label}
+                                >
+                                    {link.family === "fa5" ? (
+                                        <FontAwesome5
+                                            name={link.icon}
+                                            size={22}
+                                            color={brandColor}
+                                            brand
+                                        />
+                                    ) : (
+                                        <Ionicons
+                                            name={
+                                                link.icon as
                                                     | "globe-outline"
                                                     | "logo-whatsapp"
                                                     | "logo-github"
                                                     | "logo-linkedin"
-                                                }
-                                                size={22}
-                                                color={brandColor}
-                                            />
-                                        )}
-                                    </Pressable>
-                                );
-                            })}
-                        </View>
+                                            }
+                                            size={22}
+                                            color={brandColor}
+                                        />
+                                    )}
+                                </Pressable>
+                            );
+                        })}
                     </View>
+                </View>
 
-                    <Text className="mt-5 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-[#EAF6FF] dark:border-slate-600 pt-3">
-                        v1.0.1
-                    </Text>
-                </Animated.View>
-            </View>
-        </Modal>
+                <Text className="mt-5 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-[#EAF6FF] dark:border-slate-600 pt-3">
+                    v1.0.1
+                </Text>
+            </Animated.View>
+        </View>
     );
 }
