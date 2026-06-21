@@ -26,13 +26,13 @@ The app provides real-time weather forecasts, hourly weather updates, multi-day 
 ## Preview
 
 <p align="center">
-  <img src="./src/assets/preview/splash.png" width="500" alt="Splash Screen" />
-  <img src="./src/assets/preview/home.png" width="500" alt="Home Screen" />
+  <img src="./src/assets/preview/splash.png" width="400" alt="Splash Screen" />
+  <img src="./src/assets/preview/home.png" width="400" alt="Home Screen" />
 </p>
 
 <p align="center">
-  <img src="./src/assets/preview/news.png" width="500" alt="News Screen" />
-  <img src="./src/assets/preview/sidebar.png" width="500" alt="Sidebar Screen" />
+  <img src="./src/assets/preview/news.png" width="400" alt="News Screen" />
+  <img src="./src/assets/preview/sidebar.png" width="400" alt="Sidebar Screen" />
 </p>
 
 ---
